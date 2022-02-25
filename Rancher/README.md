@@ -1,4 +1,29 @@
-# Deploying Rancher on Workers
+# Setting up Rancher
+Two primary methods: 
+1. Setup Rancher with Docker on an external Host outside of the cluster
+2. Setup Highly Available Rancher within the cluster
+## Method 1: Deplying Rancher with Docker externally
+1. First setup and install Docker on your respctive machine
+    - For Ubuntu Linux:
+        - Setup Pre-requisites for Docker`sudo apt-get update`
+        -   ```
+            sudo apt-get install \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release 
+    -  `curl -fsSL https://get.docker.com -o get-docker.sh`
+    - `sudo sh get-docker.sh`
+2. Setup Docker Container
+    - Run ```
+         docker run -d --restart=unless-stopped \
+         -p 80:80 -p 443:443 \
+         --privileged \
+         rancher/rancher:latest ```
+3. Get Password for first-time login
+    - Run `docker logs  container-id  2>&1 | grep "Bootstrap Password:"`
+
+## Method 2: Deploying Rancher on Workers using Helm
 This deployment will be using the self-generated Rancher Certificate. <br>
 Hop on a Server Node, or client connected to kubectl cluster and do the following:
 1. Adding Helm Chart Repository
@@ -26,7 +51,17 @@ Hop on a Server Node, or client connected to kubectl cluster and do the followin
         helm install rancher rancher-stable/rancher \
         --namespace cattle-system \
         --set hostname={Loadbalancer-DNS-Name}} \
-        --set replicas=3
+        --set replicas=3 \
+        --set bootstrapPassword=password
     - Check on deployment w/ `kubectl -n cattle-system rollout status deploy/rancher`
     - Once finished, obtain info on deployment w/ `kubectl -n cattle-system get deploy rancher`
-5. 
+5. Once Rancher is deployed
+    - Navigate to {LoadBalancer-DNS} site
+    - Find your secret using command given at site login
+## Troubeshooting Rancher
+- If you must uninstall and reinstall Rancher for any reason, I recommend these steps (They are painful)
+    - For the name spaces affecting Rancher Directly,
+    -   `kubectl delete namespace namespace-name`
+    - Check it w/ `kubectl get ns`
+    - If stuck in terminating, `kubectl edit ns namespace-name`
+        - Delete everything under the finalizer: fields (Sometimes there are two.)
