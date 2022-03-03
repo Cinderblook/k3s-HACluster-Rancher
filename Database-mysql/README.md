@@ -9,8 +9,9 @@ Ensure database is:
     - `sudo docker exec -it mysql bash`
 - `mysql -p`  (Enter password)
     ```sql 
-    CREATE DATABASE 'k3s' COLLATE latin1_swedish_ci;
+    CREATE DATABASE k3s COLLATE latin1_swedish_ci;
     CREATE USER ‘user’@’%’ IDENTIFIED BY ‘password’;
-    GRANT ALL ON k3s. * TO 'user'@'%';
-    FLUSH PRIVILEGES;```
+    GRANT ALL ON k3s.* TO 'user'@'%';
+    FLUSH PRIVILEGES;
+    ```
 

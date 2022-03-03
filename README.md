@@ -13,7 +13,9 @@ I go into further detail with each step within the steps respective folder.
 	- Useful Docker compose commands:
 	```bash
 		# Sping up a docker based on docker-compose.yml file
-		docker-compose -f
+		docker-compose up -f 'filenamehere'
+		# Sping up a docker and keep it running
+		docker-compose up -d
 		# Find list of running docker processes
 		docker ps
 		# Get into shell of a running docker
@@ -51,7 +53,7 @@ I go into further detail with each step within the steps respective folder.
 	kubectl rollout status -w deployment/frontend                    # Watch rolling update status of "frontend" deployment until 	completion
 	kubectl rollout restart deployment/frontend                      # Rolling restart of the "frontend" deployment
 	```
-
+	- Allow kubectl without sudo priviledge `sudo chmod 644 /etc/rancher/k3s/k3s.yaml`
 ## Resources
 - Shout out to [TheQuib](https://github.com/TheQuib/k3s) I thank him for his collaboration on this
 - Rancher [Documentation](https://rancher.com/docs/k3s/latest/en/)
