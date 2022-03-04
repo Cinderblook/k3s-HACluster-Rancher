@@ -45,12 +45,13 @@ Hop on a Server Node, or client connected to kubectl cluster and do the followin
         --version v1.5.1
         ```
         - *If you experience an issue running this, such as localhost:8080 error, add KUBECONFIG as an environment variable to fix it:* `export KUBECONFIG=/etc/rancher/k3s/k3s.yaml`
+        - *If that does not fix it, ensure the .kube config file exists in the proper locaiton* `kubectl config view --raw > ~/.kube/config`
     - Verify it is working w/ `kubectl get pods --namespace cert-manager`
 4. Install Rancher using Helm
     - ```
         helm install rancher rancher-stable/rancher \
         --namespace cattle-system \
-        --set hostname={Loadbalancer-DNS-Name}} \
+        --set hostname=192.168.1.194 \
         --set replicas=3 \
         --set bootstrapPassword=password
     - Check on deployment w/ `kubectl -n cattle-system rollout status deploy/rancher`
