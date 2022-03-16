@@ -51,7 +51,7 @@ Hop on a Server Node, or client connected to kubectl cluster and do the followin
     - ```
         helm install rancher rancher-stable/rancher \
         --namespace cattle-system \
-        --set hostname=192.168.1.194 \
+        --set hostname=port.lan \
         --set replicas=3 \
         --set bootstrapPassword=password
     - Check on deployment w/ `kubectl -n cattle-system rollout status deploy/rancher`
@@ -62,7 +62,7 @@ Hop on a Server Node, or client connected to kubectl cluster and do the followin
 ## Troubeshooting Rancher
 - If you must uninstall and reinstall Rancher for any reason, I recommend these steps (They are painful)
     - For the name spaces affecting Rancher Directly,
-    -   `kubectl delete namespace namespace-name`
+    -   `sudo kubectl delete namespace namespace-name`
     - Check it w/ `kubectl get ns`
     - If stuck in terminating, `kubectl edit ns namespace-name`
         - Delete everything under the finalizer: fields (Sometimes there are two.)
